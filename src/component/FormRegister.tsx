@@ -19,7 +19,7 @@ const FormRegister = ({ updatePlayerInRoom }: Props) => {
     }
   };
   return (
-    <form className='form-register' onSubmit={onSubmit}>
+    <form className='form-register flex-center' onSubmit={onSubmit}>
       <div className='row'>
         <input ref={playerXRef} placeholder='Tên người chơi X' />
         <input ref={playerORef} placeholder='Tên người chơi O' />

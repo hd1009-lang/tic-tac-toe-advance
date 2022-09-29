@@ -19,7 +19,7 @@ const Item = ({ checkedItem, col, row }: Props) => {
     }
   };
   return (
-    <div className='item' onClick={() => handleChecked()}>
+    <div className='item flex-center' onClick={() => handleChecked()}>
       {value}
     </div>
   );

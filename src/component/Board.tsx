@@ -9,8 +9,8 @@ const initialRoom = {
   playerX: '',
   playerO: '',
   board: {
-    row: 10,
-    col: 10,
+    row: 30,
+    col: 30,
     data: [[{ idCol: '', value: 'x', id: '' }]],
   },
   timeToWin: -1,
@@ -52,11 +52,10 @@ const Board = () => {
       <Countdown initialTime={20 * 60} setWinnerWhenTimeOut={setWinnerWhenTimeOut} winner={room.winner} getTimeWhenWin={getTimeWhenWin} />
       {room.winner && (
         <Notification>
-          <span>Người chiến thắng: </span>
-          {room.winner === 'draw' ? 'Hòa' : room.winner}
+          {room.winner === 'draw' ? 'Hòa' : <span>Người chiến thắng:{room.winner} </span>}
           <div>
-            <span>Trong thời gian là: </span>
-            <span> {handleTime(Math.floor(room.timeToWin / 3600))}:</span>
+            <span>Thời gian chơi là: </span>
+            <span>{handleTime(Math.floor(room.timeToWin / 3600))}:</span>
             <span> {handleTime(Math.floor(room.timeToWin / 60) - Math.floor(room.timeToWin / 3600) * 60)}:</span>
             <span> {handleTime(Number((room.timeToWin % 60).toFixed(0)))}</span>
           </div>
