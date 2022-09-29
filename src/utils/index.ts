@@ -7,6 +7,8 @@ export const handleTime = (time: number) => {
   return time;
 };
 export const checkIsWinner = (board: Col[], currentRow: number, currentCol: number) => {
+  console.log(currentRow, currentCol);
+
   let result = { countY: 0, countX: 0, countZ: 0, wrappedZ: 0, wrappedY: 0, wrappedX: 0 };
   result.countY++;
   result.countX++;
@@ -48,7 +50,6 @@ const checkWinnerOnTopY = (board: Col[], currentRow: number, currentCol: number,
     result.wrappedY++;
     return;
   }
-  console.log('Up', result.countY);
 };
 const checkWinnerUnderY = (board: Col[], currentRow: number, currentCol: number, result: { countY: number; wrappedY: number }) => {
   if (board[currentRow + 1] && board[currentRow + 1][currentCol].value === board[currentRow][currentCol].value) {
@@ -63,7 +64,6 @@ const checkWinnerUnderY = (board: Col[], currentRow: number, currentCol: number,
     result.wrappedY++;
     return;
   }
-  console.log('under', result.countY);
 };
 //X
 const checkWinnerRightX = (board: Col[], currentRow: number, currentCol: number, result: { countX: number; wrappedX: number }) => {

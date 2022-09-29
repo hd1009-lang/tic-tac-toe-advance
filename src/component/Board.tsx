@@ -11,7 +11,7 @@ const Board = () => {
     board: {
       row: 10,
       col: 10,
-      data: [[{ col: 0, row: 0, value: 'x' }]],
+      data: [[{ idCol: '', value: 'x', id: '' }]],
     },
     timeToWin: -1,
     winner: '',
@@ -25,7 +25,6 @@ const Board = () => {
     setRoom((room) => ({ ...room, winner: 'Draw' }));
   }, []);
   const getTimeWhenWin = useCallback((currentTime: number) => {
-    console.log('currentTime', currentTime);
     setRoom((room) => ({ ...room, timeToWin: currentTime }));
   }, []);
   const getWinner = useCallback((currentRole: string) => {
@@ -35,14 +34,19 @@ const Board = () => {
       setRoom((room) => ({ ...room, winner: room.playerO }));
     }
   }, []);
-
+  const expandBoard = (row: number, col: number) => {
+    const currentBoard = room.board;
+    currentBoard.col = col;
+    currentBoard.row = row;
+    setRoom((room) => ({ ...room, board: currentBoard }));
+  };
   if (!room.playerX || !room.playerO) {
     return <FormRegister updatePlayerInRoom={updatePlayerInRoom} />;
   }
   return (
     <div className='board'>
       <Countdown initialTime={20 * 60} setWinnerWhenTimeOut={setWinnerWhenTimeOut} winner={room.winner} getTimeWhenWin={getTimeWhenWin} />
-      <Table dataBoard={room.board} getWinner={getWinner} />
+      <Table dataBoard={room.board} getWinner={getWinner} expandBoard={expandBoard} />
       <div className='main-board'>
         {room.winner && (
           <div>

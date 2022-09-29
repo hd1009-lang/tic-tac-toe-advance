@@ -12,8 +12,8 @@ export interface Board {
 }
 export type Col = Row[];
 export interface Row {
-  row: number;
-  col: number;
+  id: string;
+  idCol: string;
   value: string;
 }
 

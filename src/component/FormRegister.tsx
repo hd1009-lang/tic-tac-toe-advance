@@ -5,8 +5,6 @@ interface Props {
 }
 
 const FormRegister = ({ updatePlayerInRoom }: Props) => {
-  console.log('Loop');
-
   const playerXRef = useRef<HTMLInputElement | null>(null);
   const playerORef = useRef<HTMLInputElement | null>(null);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

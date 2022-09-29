@@ -45,7 +45,6 @@ const Countdown = ({ setWinnerWhenTimeOut, initialTime, winner, getTimeWhenWin }
   }, [timer]);
   useEffect(() => {
     if (winner) {
-      console.log('stop');
       setTimeToWin(timer);
       getTimeWhenWin(timer);
       setTimer(-1);
