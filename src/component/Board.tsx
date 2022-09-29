@@ -49,7 +49,19 @@ const Board = () => {
   }
   return (
     <div className='board'>
-      <Countdown initialTime={20 * 60} setWinnerWhenTimeOut={setWinnerWhenTimeOut} winner={room.winner} getTimeWhenWin={getTimeWhenWin} />
+      <div>
+        <div className='flex-center'>
+          <span>X: {room.playerX}</span>
+          <Countdown
+            initialTime={20 * 60}
+            setWinnerWhenTimeOut={setWinnerWhenTimeOut}
+            winner={room.winner}
+            getTimeWhenWin={getTimeWhenWin}
+          />
+          <span>O: {room.playerO}</span>
+        </div>
+      </div>
+
       {room.winner && (
         <Notification>
           {room.winner === 'draw' ? 'Hòa' : <span>Người chiến thắng:{room.winner} </span>}
