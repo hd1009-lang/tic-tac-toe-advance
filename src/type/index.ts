@@ -16,3 +16,8 @@ export interface Row {
   col: number;
   value: string;
 }
+
+export enum role {
+  x = 'x',
+  o = 'o',
+}

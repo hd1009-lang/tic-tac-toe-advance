@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { Room } from '../type';
+import React, { useCallback, useEffect, useState } from 'react';
+import { role, Room } from '../type';
 import { handleTime } from '../utils';
 import Countdown from './Countdown';
 import FormRegister from './FormRegister';
@@ -24,14 +24,37 @@ const Board = () => {
     alert('Draw');
     setRoom((room) => ({ ...room, winner: 'Draw' }));
   }, []);
+  const getTimeWhenWin = useCallback((currentTime: number) => {
+    console.log('currentTime', currentTime);
+    setRoom((room) => ({ ...room, timeToWin: currentTime }));
+  }, []);
+  const getWinner = useCallback((currentRole: string) => {
+    if (currentRole === role.x) {
+      setRoom((room) => ({ ...room, winner: room.playerX }));
+    } else {
+      setRoom((room) => ({ ...room, winner: room.playerO }));
+    }
+  }, []);
+
   if (!room.playerX || !room.playerO) {
     return <FormRegister updatePlayerInRoom={updatePlayerInRoom} />;
   }
   return (
     <div className='board'>
-      {!room.winner && <Countdown initialTime={20 * 60} setWinnerWhenTimeOut={setWinnerWhenTimeOut} />}
-      <Table dataBoard={room.board} />
-      <div className='main-board'>{room.winner && room.winner}</div>
+      <Countdown initialTime={20 * 60} setWinnerWhenTimeOut={setWinnerWhenTimeOut} winner={room.winner} getTimeWhenWin={getTimeWhenWin} />
+      <Table dataBoard={room.board} getWinner={getWinner} />
+      <div className='main-board'>
+        {room.winner && (
+          <div>
+            {room.winner}
+            <div>
+              <span> {handleTime(Math.floor(room.timeToWin / 3600))} : </span>
+              <span> {handleTime(Math.floor(room.timeToWin / 60) - Math.floor(room.timeToWin / 3600) * 60)} : </span>
+              <span> {handleTime(Number((room.timeToWin % 60).toFixed(0)))}</span>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

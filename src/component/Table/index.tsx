@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Board, Col } from '../../type';
+import { Board, Col, role } from '../../type';
 import { checkIsWinner } from '../../utils';
 import Item from './Item';
 interface Props {
   dataBoard: Board;
+  getWinner: (currentRole: string) => void;
 }
-enum role {
-  x = 'x',
-  o = 'o',
-}
-const Table = ({ dataBoard }: Props) => {
+
+const Table = ({ dataBoard, getWinner }: Props) => {
   const initialBoardRow = useRef<number>(dataBoard.row);
   const initialBoardCol = useRef<number>(dataBoard.col);
   const [board, setBoard] = useState<Col[]>(dataBoard.data);
@@ -33,7 +31,10 @@ const Table = ({ dataBoard }: Props) => {
     setBoard((board) => {
       const currentBoard = board;
       currentBoard[row][col].value = currentPlayer;
-      checkIsWinner(currentBoard, row, col);
+      const isWinner = checkIsWinner(currentBoard, row, col);
+      if (isWinner) {
+        getWinner(currentPlayer);
+      }
       return currentBoard;
     });
 
