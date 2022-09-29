@@ -7,6 +7,7 @@ interface Props {
   winner: string;
 }
 const Countdown = ({ setWinnerWhenTimeOut, initialTime, winner, getTimeWhenWin }: Props) => {
+  console.log('Loop countdown');
   const [timer, setTimer] = useState(initialTime);
   const [timeToWin, setTimeToWin] = useState<number>(-1);
   const toggleCountDown = () => {
@@ -26,12 +27,11 @@ const Countdown = ({ setWinnerWhenTimeOut, initialTime, winner, getTimeWhenWin }
       });
     };
   };
+
   useEffect(() => {
     if (timer === initialTime) {
       toggleCountDown();
     }
-  }, []);
-  useEffect(() => {
     if (timer === 0) {
       setWinnerWhenTimeOut();
     }
@@ -48,6 +48,9 @@ const Countdown = ({ setWinnerWhenTimeOut, initialTime, winner, getTimeWhenWin }
       setTimeToWin(timer);
       getTimeWhenWin(timer);
       setTimer(-1);
+    } else {
+      setTimer(initialTime);
+      setTimeToWin(0);
     }
   }, [winner]);
   if (timeToWin > 0) {
@@ -68,4 +71,4 @@ const Countdown = ({ setWinnerWhenTimeOut, initialTime, winner, getTimeWhenWin }
   );
 };
 
-export default React.memo(Countdown);
+export default Countdown;

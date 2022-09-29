@@ -1,10 +1,11 @@
-import React, { FormHTMLAttributes, useRef } from 'react';
+import React, { useRef } from 'react';
 
 interface Props {
   updatePlayerInRoom: (playerX: string, playerO: string) => void;
 }
 
 const FormRegister = ({ updatePlayerInRoom }: Props) => {
+  console.log('Loop form');
   const playerXRef = useRef<HTMLInputElement | null>(null);
   const playerORef = useRef<HTMLInputElement | null>(null);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,4 +29,4 @@ const FormRegister = ({ updatePlayerInRoom }: Props) => {
   );
 };
 
-export default React.memo(FormRegister);
+export default FormRegister;

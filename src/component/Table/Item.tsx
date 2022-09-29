@@ -7,6 +7,7 @@ interface Props {
 }
 
 const Item = ({ checkedItem, col, row }: Props) => {
+  console.log('Loop Item');
   const [value, setValue] = useState<string>('');
   const handleChecked = () => {
     if (value) {

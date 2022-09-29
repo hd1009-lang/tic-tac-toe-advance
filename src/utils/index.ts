@@ -7,29 +7,24 @@ export const handleTime = (time: number) => {
   return time;
 };
 export const checkIsWinner = (board: Col[], currentRow: number, currentCol: number) => {
-  console.log(currentRow, currentCol);
-
-  let result = { countY: 0, countX: 0, countZ: 0, wrappedZ: 0, wrappedY: 0, wrappedX: 0 };
+  let result = { countY: 0, countX: 0, countZR: 0, wrappedZR: 0, countZL: 0, wrappedZL: 0, wrappedY: 0, wrappedX: 0 };
   result.countY++;
   result.countX++;
-  result.countZ++;
+  result.countZR++;
+  result.countZL++;
   checkWinnerOnTopY(board, currentRow, currentCol, result);
   checkWinnerUnderY(board, currentRow, currentCol, result);
   checkWinnerLeftX(board, currentRow, currentCol, result);
   checkWinnerRightX(board, currentRow, currentCol, result);
-  checkWinnerOnTopZ(board, currentRow, currentCol, result);
-  checkWinnerUnderZ(board, currentRow, currentCol, result);
-  if (
-    (result.countX === 4 && result.wrappedX === 0) ||
-    (result.countY === 4 && result.wrappedY === 0) ||
-    (result.countZ === 4 && result.wrappedZ === 0)
-  ) {
-    return true;
-  }
+  checkWinnerOnTopZR(board, currentRow, currentCol, result);
+  checkWinnerUnderZR(board, currentRow, currentCol, result);
+  checkWinnerOnTopZL(board, currentRow, currentCol, result);
+  checkWinnerUnderZL(board, currentRow, currentCol, result);
   if (
     (result.countY === 5 && result.wrappedY < 2) ||
     (result.countX === 5 && result.wrappedX < 2) ||
-    (result.countZ === 5 && result.wrappedZ < 2)
+    (result.countZR === 5 && result.wrappedZR < 2) ||
+    (result.countZL === 5 && result.wrappedZL < 2)
   ) {
     return true;
   }
@@ -93,27 +88,51 @@ const checkWinnerLeftX = (board: Col[], currentRow: number, currentCol: number, 
   }
 };
 //z
-const checkWinnerOnTopZ = (board: Col[], currentRow: number, currentCol: number, result: { countZ: number; wrappedZ: number }) => {
+const checkWinnerOnTopZR = (board: Col[], currentRow: number, currentCol: number, result: { countZR: number; wrappedZR: number }) => {
   if (!board[currentRow - 1] || !board[currentRow - 1][currentCol - 1]) {
     return;
   }
   if (board[currentRow - 1][currentCol - 1].value === board[currentRow][currentCol].value) {
-    result.countZ++;
-    checkWinnerOnTopZ(board, currentRow - 1, currentCol - 1, result);
+    result.countZR++;
+    checkWinnerOnTopZR(board, currentRow - 1, currentCol - 1, result);
   }
   if (board[currentRow - 1][currentCol - 1].value && board[currentRow - 1][currentCol - 1].value !== board[currentRow][currentCol].value) {
-    result.wrappedZ++;
+    result.wrappedZR++;
   }
 };
-const checkWinnerUnderZ = (board: Col[], currentRow: number, currentCol: number, result: { countZ: number; wrappedZ: number }) => {
+const checkWinnerOnTopZL = (board: Col[], currentRow: number, currentCol: number, result: { countZL: number; wrappedZL: number }) => {
+  if (!board[currentRow - 1] || !board[currentRow - 1][currentCol + 1]) {
+    return;
+  }
+  if (board[currentRow - 1][currentCol + 1].value === board[currentRow][currentCol].value) {
+    result.countZL++;
+    checkWinnerOnTopZL(board, currentRow - 1, currentCol + 1, result);
+  }
+  if (board[currentRow - 1][currentCol + 1].value && board[currentRow - 1][currentCol + 1].value !== board[currentRow][currentCol].value) {
+    result.wrappedZL++;
+  }
+};
+const checkWinnerUnderZR = (board: Col[], currentRow: number, currentCol: number, result: { countZR: number; wrappedZR: number }) => {
   if (!board[currentRow + 1] || !board[currentRow + 1][currentCol + 1]) {
     return;
   }
   if (board[currentRow + 1][currentCol + 1].value === board[currentRow][currentCol].value) {
-    result.countZ++;
-    checkWinnerUnderZ(board, currentRow + 1, currentCol + 1, result);
+    result.countZR++;
+    checkWinnerUnderZR(board, currentRow + 1, currentCol + 1, result);
   }
   if (board[currentRow + 1][currentCol + 1].value && board[currentRow + 1][currentCol + 1].value !== board[currentRow][currentCol].value) {
-    result.wrappedZ++;
+    result.wrappedZR++;
+  }
+};
+const checkWinnerUnderZL = (board: Col[], currentRow: number, currentCol: number, result: { countZL: number; wrappedZL: number }) => {
+  if (!board[currentRow + 1] || !board[currentRow + 1][currentCol - 1]) {
+    return;
+  }
+  if (board[currentRow + 1][currentCol - 1].value === board[currentRow][currentCol].value) {
+    result.countZL++;
+    checkWinnerUnderZL(board, currentRow + 1, currentCol - 1, result);
+  }
+  if (board[currentRow + 1][currentCol - 1].value && board[currentRow + 1][currentCol - 1].value !== board[currentRow][currentCol].value) {
+    result.wrappedZL++;
   }
 };

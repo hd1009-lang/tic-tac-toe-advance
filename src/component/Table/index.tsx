@@ -1,17 +1,15 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Board, Col, role } from '../../type';
 import { checkIsWinner } from '../../utils';
 import { v4 as uuidv4 } from 'uuid';
 import Item from './Item';
 interface Props {
   dataBoard: Board;
-  expandBoard: (row: number, col: number) => void;
   getWinner: (currentRole: string) => void;
 }
 
-const Table = ({ dataBoard, getWinner, expandBoard }: Props) => {
-  const initialBoardRow = useRef<number>(dataBoard.row);
-  const initialBoardCol = useRef<number>(dataBoard.col);
+const Table = ({ dataBoard, getWinner }: Props) => {
+  console.log('Loop TABLE');
   const [board, setBoard] = useState<Col[]>(dataBoard.data);
   const createBoard = (numOfRow: number, numOfCol: number) => {
     const newBoard = [];
@@ -28,32 +26,45 @@ const Table = ({ dataBoard, getWinner, expandBoard }: Props) => {
   };
   const expandTable = (row: number, col: number) => {
     const currentBoard = [...board];
-    const newRow = currentBoard[0].map((item) => {
-      return {
-        id: uuidv4(),
-        idCol: uuidv4(),
-        value: '',
-      };
-    });
     if (row === 0) {
+      const newRow = currentBoard[0].map((item) => {
+        return {
+          id: uuidv4(),
+          idCol: uuidv4(),
+          value: '',
+        };
+      });
       currentBoard.unshift(newRow);
       setBoard(currentBoard);
     }
-    console.log(currentBoard);
-
+    if (row === currentBoard.length - 1) {
+      const newRow = currentBoard[0].map((item) => {
+        return {
+          id: uuidv4(),
+          idCol: uuidv4(),
+          value: '',
+        };
+      });
+      currentBoard.push(newRow);
+      setBoard(currentBoard);
+    }
     if (col === 0) {
       currentBoard.forEach((item) => {
         return item.unshift({ id: item[0].id, idCol: uuidv4(), value: '' });
       });
-      console.log(currentBoard);
+      setBoard(currentBoard);
+    }
+    if (col === board[0].length - 1) {
+      currentBoard.forEach((item) => {
+        return item.push({ id: item[0].id, idCol: uuidv4(), value: '' });
+      });
       setBoard(currentBoard);
     }
   };
-
   useEffect(() => {
     localStorage.setItem('currentPlayer', role.x);
     createBoard(dataBoard.row, dataBoard.col);
-  }, []);
+  }, [dataBoard]);
 
   const checkedItem = (row: number, col: number) => {
     const currentPlayer = localStorage.getItem('currentPlayer') || '';
