@@ -9,8 +9,8 @@ const Board = () => {
     playerX: '',
     playerO: '',
     board: {
-      row: 30,
-      col: 30,
+      row: 10,
+      col: 10,
       data: [[{ col: 0, row: 0, value: 'x' }]],
     },
     timeToWin: -1,
