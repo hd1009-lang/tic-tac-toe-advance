@@ -24,6 +24,7 @@ const Table = ({ dataBoard, getWinner }: Props) => {
     }
     setBoard(newBoard);
   };
+
   const expandTable = (row: number, col: number) => {
     const currentBoard = [...board];
     if (row === 0) {
@@ -61,6 +62,7 @@ const Table = ({ dataBoard, getWinner }: Props) => {
       setBoard(currentBoard);
     }
   };
+
   useEffect(() => {
     localStorage.setItem('currentPlayer', role.x);
     createBoard(dataBoard.row, dataBoard.col);

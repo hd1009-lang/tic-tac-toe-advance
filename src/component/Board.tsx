@@ -17,6 +17,8 @@ const initialRoom = {
   winner: '',
 };
 const Board = () => {
+  console.log('Loop Board');
+
   const [room, setRoom] = useState<Room>(initialRoom);
 
   const updatePlayerInRoom = (playerX: string, playerO: string) => {
@@ -25,9 +27,9 @@ const Board = () => {
   const setWinnerWhenTimeOut = () => {
     setRoom((room) => ({ ...room, winner: 'draw', timeToWin: 0 }));
   };
-  const getTimeWhenWin = useCallback((currentTime: number) => {
+  const getTimeWhenWin = (currentTime: number) => {
     setRoom((room) => ({ ...room, timeToWin: 20 * 60 - currentTime }));
-  }, []);
+  };
   const getWinner = useCallback((currentRole: string) => {
     if (currentRole === role.x) {
       setRoom((room) => ({ ...room, winner: room.playerX }));
